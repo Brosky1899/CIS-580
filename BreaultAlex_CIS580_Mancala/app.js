@@ -45,16 +45,23 @@ function() {
         if (!b && !c) return -1;
         var d;
         if (b && !c)
-            for (d = 0; 6 > d; d++) this.playerTwo_store += this.playerTwo_pits[d], this.playerTwo_pits[d] = 0;
+            for (d = 0; 6 > d; d++) {
+              this.playerTwo_store += this.playerTwo_pits[d];
+              this.playerTwo_pits[d] = 0;
+            }
         else if (c && !b)
-            for (d = 0; 6 > d; d++) this.playerOne_store += this.playerOne_pits[d], this.playerOne_pits[d] = 0;
+            for (d = 0; 6 > d; d++) {
+              this.playerOne_store += this.playerOne_pits[d];
+              this.playerOne_pits[d] = 0;
+            }
         return this.game.draw_all_pebbles(), this.playerOne_store > this.playerTwo_store ? "two" === this.game.player ? 2 : 1 : this.playerTwo_store > this.playerOne_store ? "two" === this.game.player ? 1 : 2 : 0
     }
 }();
 var Game = function() {
     "use strict";
     var a = function(a, b) {
-        this.mancala = new a(this), this.player = "two" === b ? "two" : "one"
+        this.mancala = new a(this);
+        this.player = "two" === b ? "two" : "one";
     };
     return a.prototype.init = function() {
         this.refresh_queries();
@@ -109,7 +116,12 @@ var Game = function() {
 function() {
     "use strict";
     Game.prototype.load_game = function() {
-        localStorage.getItem("pebbles") && (localStorage.removeItem("pebbles"), localStorage.removeItem("player")), localStorage.getItem("playerOne_pits") ? (this.mancala.playerOne_store = parseInt(localStorage.getItem("playerOne_store")), this.mancala.playerTwo_store = parseInt(localStorage.getItem("playerTwo_store")), this.mancala.playerOne_pits = JSON.parse(localStorage.getItem("playerOne_pits")), this.mancala.playerTwo_pits = JSON.parse(localStorage.getItem("playerTwo_pits")), "two" === localStorage.getItem("player") && this.switch_turn()) : this.save_game()
+        localStorage.getItem("pebbles") && (localStorage.removeItem("pebbles"), localStorage.removeItem("player")),
+        localStorage.getItem("playerOne_pits") ? (this.mancala.playerOne_store = parseInt(localStorage.getItem("playerOne_store")),
+        this.mancala.playerTwo_store = parseInt(localStorage.getItem("playerTwo_store")),
+        this.mancala.playerOne_pits = JSON.parse(localStorage.getItem("playerOne_pits")),
+        this.mancala.playerTwo_pits = JSON.parse(localStorage.getItem("playerTwo_pits")),
+        "two" === localStorage.getItem("player") && this.switch_turn()) : this.save_game();
     }, Game.prototype.save_game = function() {
         localStorage.setItem("player", this.player);
         localStorage.setItem("playerOne_store", JSON.stringify(this.mancala.playerOne_store));
@@ -139,7 +151,10 @@ var game = function() {
                     }
                 }, f = 0; f < d.length; f++) d[f].setAttribute("data-pit", f), d[f].onclick = e
         };
-    return c("one", document.querySelectorAll(".row.player-one .pit")), c("two", document.querySelectorAll(".row.player-two .pit")), document.querySelector(".new-game").onclick = function() {
+    return c("one",
+            document.querySelectorAll(".row.player-one .pit")),
+            c("two", document.querySelectorAll(".row.player-two .pit")),
+            document.querySelector(".new-game").onclick = function() {
         a.reset_game(), window.location.reload()
     }, a
 }();

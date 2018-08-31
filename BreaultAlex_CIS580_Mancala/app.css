@@ -14,12 +14,12 @@ body {
 	color: #555;
   background: url("images/ksu.png");
   background-size: cover;
-	font-size: 1rem;
-	margin-top: 1em;
+	font-size: 20px;
+	margin-top: 20px;
 }
 
 h1 {
-	font-size: 4rem;
+	font-size: 80px;
   color: white;
 	letter-spacing: 4px;
 	margin: 0;
@@ -141,14 +141,13 @@ h1 {
 button {
 	cursor: pointer;
 	padding: 7px 13px;
-	border: 1px solid #ccc;
+	border: 1px solid black;
 	border-radius: 3px;
 	color: #555;
 	background: #f7f7f7;
-	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0, 0, 0, .08)
 }
 
 button:hover {
-	background: #fafafa;
-	color: #23282d
+	background: white;
+	color: gray;
 }
