@@ -1,3 +1,8 @@
+/**
+ * Javascript for Mancala Game
+ * Alex Breault - CIS 580 - Project 1
+ * @return {[type]} [description]
+ */
 var Mancala = function() {
     "use strict";
     var a = function(a) {
