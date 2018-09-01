@@ -57,8 +57,8 @@ var Mancala = function() {
         var c = 5 - a;
         return 6 > a && 1 === this.playerOne_pits[a] && this.playerTwo_pits[c] > 0 && (this.playerOne_store += this.playerTwo_pits[c] + 1, this.game.draw_pebbles(6), this.playerOne_pits[a] = 0, this.playerTwo_pits[c] = 0, this.game.draw_pebbles(a), this.game.draw_pebbles(12 - a)), 6 !== a
     }
-}(),
-function() {
+}();
+! function() {
     "use strict";
     /*
     function to check winner
@@ -133,7 +133,7 @@ var Game = function() {
         var a = this.player;
         setTimeout(function() {
             document.body.setAttribute("data-player", a);
-            document.querySelector(".playerOne-player").textContent = a;
+            document.querySelector(".current-player").textContent = a;
         }, 700)
     }, a.prototype.check_game_over = function() {
       /*
@@ -170,8 +170,8 @@ var Game = function() {
         };
         6 === a ? this.playerOne_player_store.textContent = b(this.mancala.playerOne_store) : 13 === a ? this.playerTwo_player_store.textContent = b(this.mancala.playerTwo_store) : 6 > a ? this.playerOne_player_pits[a].textContent = b(this.mancala.playerOne_pits[a]) : a > 6 && (a -= 7, this.playerTwo_player_pits[a].textContent = b(this.mancala.playerTwo_pits[a]))
     }
-}(),
-function() {
+}();
+! function() {
     "use strict";
     Game.prototype.load_game = function() {
       /*
