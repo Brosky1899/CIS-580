@@ -47,11 +47,14 @@ details,
 figcaption,
 figure,
 footer,
-header,
 hgroup,
 nav,
 section {
     display: block;
+}
+
+header {
+  color: white;
 }
 
 /*

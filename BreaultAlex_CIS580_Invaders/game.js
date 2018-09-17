@@ -420,6 +420,22 @@ var detectColisions = function() {
 	}
 }
 
+var checkWinner = function() {
+  var header = document.getElementById('myHeader');
+  var subheader = document.getElementById('controls');
+  var flag = false;
+  if (enemies.length === 0) {
+    flag = true;
+  }
+  if (flag === true)
+  {
+    header.innerText = "Congrats!";
+    subheader.innerText = "You won!";
+  }
+
+
+}
+
 /**
  * Run the game
  */
@@ -432,8 +448,10 @@ var runGame = function() {
 	animate();
 	//check colisions
 	detectColisions();
+  //check winner
+  checkWinner();
 	//set timeout function
-	gameLoop = setTimeout(runGame, intervalTime);
+	gameLoop = window.requestAnimationFrame(runGame);
 }
 
 //window width
