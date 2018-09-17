@@ -208,6 +208,8 @@ function Player() {
 	//height
 	this.height = 16;
 
+  this.lives = 3;
+
 	//indicates if the sprite is moving left
 	this.movingLeft = false;
 	//indicates if the sprite is moving right
@@ -409,6 +411,7 @@ var animate = function() {
  * Detect colisions between the lasers and enemies
  */
 var detectColisions = function() {
+  var lives = document.getElementById('playerLives');
 	for(indexLaser in lasers) {
 		for(indexEnemy in enemies) {
 			if(colisionHandler.detectColisionBetweenObjects(lasers[indexLaser], enemies[indexEnemy])) {
@@ -416,6 +419,11 @@ var detectColisions = function() {
 				enemies.splice(indexEnemy, 1);
 				break;
 			}
+      else if (collisionHandler.detectColisionBetweenObjects(enemies[indexEnemy], player))
+      {
+        player.lives--;
+        lives.innerText = "Lives left: " + player.lives;
+      }
 		}
 	}
 }
@@ -459,7 +467,7 @@ const WINDOW_WIDTH = 600;
 //window height
 const WINDOW_HEIGHT = 600;
 //frame rate
-const FRAME_RATE = 50;
+const FRAME_RATE = 60;
 
 //game loop
 var gameLoop;
