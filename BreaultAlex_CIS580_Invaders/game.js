@@ -419,7 +419,7 @@ var detectColisions = function() {
 				enemies.splice(indexEnemy, 1);
 				break;
 			}
-      else if (collisionHandler.detectColisionBetweenObjects(enemies[indexEnemy], player))
+      else if (colisionHandler.detectColisionBetweenObjects(enemies[indexEnemy], player))
       {
         player.lives--;
         lives.innerText = "Lives left: " + player.lives;
