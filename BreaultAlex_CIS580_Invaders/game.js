@@ -21,6 +21,13 @@ function CollisionHandler() {
  		}
  		return true;
  	}
+
+  this.detectCollisionBetweenPlayerandEnemy = function(player) {
+    for (var i = 0; i < enemies.length; i++) {
+      var flag = this.detectCollisionBetweenObjects(enemies[i], player);
+      if (flag) return flag;
+    }
+  }
  }
 
 function Enemy(initPosX, initPosY) {
@@ -84,10 +91,6 @@ function Enemy(initPosX, initPosY) {
 		}
 		return currentAction;
 	}
-
-  this.shoot = function() {
-    lasers[lasers.length] = new Laser(this, -1);
-  }
 
 	/**
 	  * Return the position xx of the enemy
@@ -356,6 +359,7 @@ var drawWindow = function() {
  * @param numCols - indicate the number of columns
  */
 var createEnemies = function(numRows, numCols) {
+  enemies.splice(0, enemies.length);
 	//reference position xx
 	var refPosX = (WINDOW_WIDTH / 2);
 	//reference position yy
@@ -432,15 +436,18 @@ var detectCollisions = function() {
         player.score++;
 				break;
 			}
-      else if (collisionHandler.detectCollisionBetweenObjects(enemies[indexEnemy], player))
-      {
-        console.log("in lives");
-        player.lives--;
-        lives.innerText = "Lives left: " + player.lives;
-      }
 		}
 	}
+  if (collisionHandler.detectCollisionBetweenPlayerandEnemy(player))
+  {
+    player.lives--;
+    lives.innerText = "Lives left: " + player.lives;
+  }
 }
+
+/*
+* checks winner of game
+*/
 
 var checkWinner = function() {
   var header = document.getElementById('myHeader');
@@ -449,21 +456,28 @@ var checkWinner = function() {
   if (enemies.length === 0) {
     flag = true;
   }
-  else if (playerLives <= 0)
+  else if (player.lives <= 0)
   {
     header.innerText = "Game over";
     subheader.innerText = "You lost!";
+    enemies.splice(0, enemies.length);
   }
   if (flag === true)
   {
-    header.innerText = "Congrats!";
-    subheader.innerText = "You won!";
+    header.innerText = "Congrats! You beat round " + rounds;
+    subheader.innerText = "Get ready for the next round!";
   }
 }
 
 var updateScore = function() {
   var score = document.getElementById('playerScore');
   score.innerText = "Player score: " + player.score;
+}
+
+var resetGame = function () {
+  if (enemies.length === 0) {
+    createEnemies(6, 6);
+  }
 }
 
 /**
@@ -482,6 +496,8 @@ var runGame = function() {
 	detectCollisions();
   //check winner
   checkWinner();
+  //resets the game
+  resetGame();
 	//set timeout function
 	gameLoop = window.requestAnimationFrame(runGame);
 }
@@ -520,6 +536,8 @@ var player = new Player();
 var lasers = new Array();
 //array that store the enemies
 var enemies = new Array();
+//rounds
+var rounds = 1;
 
 //add enemies
 createEnemies(6, 6);
