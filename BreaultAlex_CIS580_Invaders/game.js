@@ -6,6 +6,7 @@ function CollisionHandler() {
  	 * @param obj2 - second object
  	 */
  	this.detectCollisionBetweenObjects = function(obj1, obj2) {
+
  		if((obj1.getPositionY() + obj1.height) < obj2.getPositionY()) {
  			return false;
  		}
@@ -213,6 +214,9 @@ function Player() {
 	this.height = 16;
 
   this.lives = 3;
+
+  //player score
+  this.score = 0;
 
 	//indicates if the sprite is moving left
 	this.movingLeft = false;
@@ -425,10 +429,12 @@ var detectCollisions = function() {
 			if(collisionHandler.detectCollisionBetweenObjects(lasers[indexLaser], enemies[indexEnemy])) {
 				lasers.splice(indexLaser, 1);
 				enemies.splice(indexEnemy, 1);
+        player.score++;
 				break;
 			}
       else if (collisionHandler.detectCollisionBetweenObjects(enemies[indexEnemy], player))
       {
+        console.log("in lives");
         player.lives--;
         lives.innerText = "Lives left: " + player.lives;
       }
@@ -443,13 +449,21 @@ var checkWinner = function() {
   if (enemies.length === 0) {
     flag = true;
   }
+  else if (playerLives <= 0)
+  {
+    header.innerText = "Game over";
+    subheader.innerText = "You lost!";
+  }
   if (flag === true)
   {
     header.innerText = "Congrats!";
     subheader.innerText = "You won!";
   }
+}
 
-
+var updateScore = function() {
+  var score = document.getElementById('playerScore');
+  score.innerText = "Player score: " + player.score;
 }
 
 /**
@@ -462,6 +476,8 @@ var runGame = function() {
 	player.draw();
 	//animate all the elements
 	animate();
+  //update playerScore
+  updateScore();
 	//check collisions
 	detectCollisions();
   //check winner
