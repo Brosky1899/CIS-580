@@ -390,10 +390,6 @@ var animate = function() {
 	if(player.movingLeft)	player.moveLeft();
 	else if(player.movingRight)	player.moveRight();
 
-  //enemy Shoot
-  var enemyShoot = window.setInterval(enemies[0].shoot(), 3000000);
-
-
 	//iterate through all the lasers
 	for(index in playerLasers) {
 		//draw laser
@@ -450,19 +446,22 @@ var detectCollisions = function() {
 			if(collisionHandler.detectCollisionBetweenObjects(playerLasers[indexLaser], enemies[indexEnemy])) {
 				playerLasers.splice(indexLaser, 1);
 				enemies.splice(indexEnemy, 1);
-        player.score++;
+        if (player.lives > 0)
+        {
+          player.score++;
+        }
 				break;
 			}
 		}
 	}
   if (collisionHandler.detectCollisionBetweenPlayerandEnemy(player))
   {
-    player.lives--;
+    if (player.lives > 0) player.lives--;
     lives.innerText = "Lives left: " + player.lives;
   }
   for (indexLaser in enemyLasers) {
     if (collisionHandler.detectCollisionBetweenObjects(enemyLasers[indexLaser], player)) {
-      player.lives--;
+      if (player.lives > 0) player.lives--;
       lives.innerText = "Lives left: " + player.lives;
     }
   }
@@ -567,7 +566,14 @@ var rounds = 1;
 //add enemies
 createEnemies(6, 6);
 
+//enemy Shoot
+var enemyShoot = window.setInterval(function() {
+  var rand = Math.floor(Math.random() * enemies.length);
 
+  if (enemies[rand]) {
+    enemies[rand].shoot();
+  }
+}, 500);
 
 //handle events when the a key is pressed
 document.onkeypress = function(e) {
