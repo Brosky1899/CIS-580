@@ -1,11 +1,11 @@
-function ColisionHandler() {
+function CollisionHandler() {
 
  	/**
- 	 * Checks the colision between two objects
+ 	 * Checks the collision between two objects
  	 * @param obj1 - first object
  	 * @param obj2 - second object
  	 */
- 	this.detectColisionBetweenObjects = function(obj1, obj2) {
+ 	this.detectCollisionBetweenObjects = function(obj1, obj2) {
  		if((obj1.getPositionY() + obj1.height) < obj2.getPositionY()) {
  			return false;
  		}
@@ -27,9 +27,9 @@ function Enemy(initPosX, initPosY) {
 	//image src
 	var imgSrc = 'images/enemy.png';
 	//width
-	this.width = 22;
+	this.width = 20;
 	//height
-	this.height = 16;
+	this.height = 15;
 
 	//enemy sprite
 	var sprite = new Sprite(3);
@@ -83,6 +83,10 @@ function Enemy(initPosX, initPosY) {
 		}
 		return currentAction;
 	}
+
+  this.shoot = function() {
+    lasers[lasers.length] = new Laser(this, -1);
+  }
 
 	/**
 	  * Return the position xx of the enemy
@@ -154,7 +158,7 @@ function KeyHandler() {
 
 function Laser(player) {
 	//increment
-	const INCREMENT = 20;
+	const INCREMENT = 10;
 	//laser width
 	this.width = 5;
 	//laser height
@@ -176,7 +180,7 @@ function Laser(player) {
 
 	/**
 	 * Simulate one step of the laser and verifies if it
-	 * already reach the top of the screen
+	 * already reached the top of the screen
 	 */
 	this.step = function() {
 		this.y = this.y - INCREMENT;
@@ -374,6 +378,8 @@ var animate = function() {
 	if(player.movingLeft)	player.moveLeft();
 	else if(player.movingRight)	player.moveRight();
 
+
+
 	//iterate through all the lasers
 	for(index in lasers) {
 		//draw laser
@@ -403,23 +409,25 @@ var animate = function() {
 			//simulate step
 			enemies[index].step();
 		}
+    var flag = collisionHandler.detectCollisionBetweenObjects(enemies[index], player);
+    if (flag) playerLives--;
 	}
 	previousAction = currentAction;
 }
 
 /**
- * Detect colisions between the lasers and enemies
+ * Detect collisions between the lasers and enemies
  */
-var detectColisions = function() {
+var detectCollisions = function() {
   var lives = document.getElementById('playerLives');
 	for(indexLaser in lasers) {
 		for(indexEnemy in enemies) {
-			if(colisionHandler.detectColisionBetweenObjects(lasers[indexLaser], enemies[indexEnemy])) {
+			if(collisionHandler.detectCollisionBetweenObjects(lasers[indexLaser], enemies[indexEnemy])) {
 				lasers.splice(indexLaser, 1);
 				enemies.splice(indexEnemy, 1);
 				break;
 			}
-      else if (colisionHandler.detectColisionBetweenObjects(enemies[indexEnemy], player))
+      else if (collisionHandler.detectCollisionBetweenObjects(enemies[indexEnemy], player))
       {
         player.lives--;
         lives.innerText = "Lives left: " + player.lives;
@@ -454,8 +462,8 @@ var runGame = function() {
 	player.draw();
 	//animate all the elements
 	animate();
-	//check colisions
-	detectColisions();
+	//check collisions
+	detectCollisions();
   //check winner
   checkWinner();
 	//set timeout function
@@ -488,8 +496,8 @@ var context = frameWindow.getContext("2d");
 
 //keyhandler object
 var keyHandler = new KeyHandler();
-//colisionhandler object
-var colisionHandler = new ColisionHandler();
+//collisionhandler object
+var collisionHandler = new CollisionHandler();
 //player object
 var player = new Player();
 //array that store the lasers
