@@ -49,7 +49,7 @@ function createAsteroidBelt() {
             x = Math.floor(Math.random() * canv.width);
             y = Math.floor(Math.random() * canv.height);
         } while (distBetweenPoints(ship.x, ship.y, x, y) < ROID_SIZE * 2 + ship.r);
-        roids.push(newAsteroid(x, y, Math.ceil(ROID_SIZE / 2), 1));
+        roids.push(newAsteroid(x, y, Math.ceil(ROID_SIZE / 2)));
     }
 }
 
@@ -60,12 +60,12 @@ function destroyAsteroid(index) {
 
     // split the asteroid in two if necessary
     if (r == Math.ceil(ROID_SIZE / 2)) { // large asteroid
-        roids.push(newAsteroid(x, y, Math.ceil(ROID_SIZE / 4), 1));
-        roids.push(newAsteroid(x, y, Math.ceil(ROID_SIZE / 4), -1));
+        roids.push(newAsteroid(x, y, Math.ceil(ROID_SIZE / 4)));
+        roids.push(newAsteroid(x, y, Math.ceil(ROID_SIZE / 4)));
         score += ROID_PTS_LGE;
     } else if (r == Math.ceil(ROID_SIZE / 4)) { // medium asteroid
-        roids.push(newAsteroid(x, y, Math.ceil(ROID_SIZE / 8), 1));
-        roids.push(newAsteroid(x, y, Math.ceil(ROID_SIZE / 8), -1));
+        roids.push(newAsteroid(x, y, Math.ceil(ROID_SIZE / 8)));
+        roids.push(newAsteroid(x, y, Math.ceil(ROID_SIZE / 8)));
         score += ROID_PTS_MED;
     } else {
         score += ROID_PTS_SML;
@@ -85,23 +85,6 @@ function destroyAsteroid(index) {
         level++;
         newLevel();
     }
-}
-
-function detectAsteroidCollision() {
-  for (var i = 0; i < roids.length; i++) {
-    for (var j = 0; j < roids.length; j++)
-    {
-      if (i != j) {
-        if (distBetweenPoints(roids[i].x, roids[i].y, roids[j].x, roids[j].y) <= (roids[i].r + roids[j].r)) {
-          roids[i].x += (roids[i].xv * -1);
-          roids[i].y += (roids[i].yv * -1);
-
-          roids[j].x += (roids[j].xv * -1);
-          roids[j].y += (roids[j].yv * -1);
-        }
-      }
-    }
-  }
 }
 
 function distBetweenPoints(x1, y1, x2, y2) {
@@ -157,6 +140,11 @@ function keyDown(/** @type {KeyboardEvent} */ ev) {
         case 39: // right arrow (rotate ship right)
             ship.rot = -SHIP_TURN_SPD / 180 * Math.PI / FPS;
             break;
+        case 65: //letter a to teleport
+            ship.x = Math.floor((Math.random() * canv.width));
+            ship.y = Math.floor((Math.random() * canv.height));
+            console.log("here");
+            break;
     }
 }
 
@@ -182,13 +170,13 @@ function keyUp(/** @type {KeyboardEvent} */ ev) {
     }
 }
 
-function newAsteroid(x, y, r, velocity) {
+function newAsteroid(x, y, r) {
     var lvlMult = 1 + 0.1 * level;
     var asteroid = {
         x: x,
         y: y,
-        xv: Math.random() * ROID_SPD * lvlMult / FPS * (Math.random() < 0.5 ? 1 : -1) * velocity,
-        yv: Math.random() * ROID_SPD * lvlMult / FPS * (Math.random() < 0.5 ? 1 : -1) * velocity,
+        xv: Math.random() * ROID_SPD * lvlMult / FPS * (Math.random() < 0.5 ? 1 : -1),
+        yv: Math.random() * ROID_SPD * lvlMult / FPS * (Math.random() < 0.5 ? 1 : -1),
         a: Math.random() * Math.PI * 2, // in radians
         r: r,
         offs: [],
@@ -484,11 +472,6 @@ function update() {
                 break;
             }
         }
-    }
-
-    //check for asteroid collision between other asteroids
-    if (roids.length > 1) {
-      detectAsteroidCollision();
     }
 
     // check for asteroid collisions (when not exploding)
