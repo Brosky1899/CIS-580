@@ -30,7 +30,7 @@ var canv = document.getElementById("gameCanvas");
 var context = canv.getContext("2d");
 var laserSound = new Audio('LaserSound.wav');
 var explosionSound = new Audio('explosionSound.wav');
-new collisionSound = new Audio('collisionSound.wav');
+var collisionSound = new Audio('collisionSound.wav');
 
 // set up the game parameters
 var level, lives, roids, score, scoreHigh, ship, text, textAlpha;
