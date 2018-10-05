@@ -1,9 +1,9 @@
-const FPS = 30; // frames per second
+const FPS = 60; // frames per second
 const FRICTION = 0.7; // friction coefficient of space (0 = no friction, 1 = lots of friction)
 const GAME_LIVES = 3; // starting number of lives
 const LASER_DIST = 1; // max distance laser can travel as fraction of screen width
 const LASER_EXPLODE_DUR = 0.1; // duration of the lasers' explosion in seconds
-const LASER_MAX = 10; // maximum number of lasers on screen at once
+const LASER_MAX = 20; // maximum number of lasers on screen at once
 const LASER_SPD = 500; // speed of lasers in pixels per second
 const ROID_JAG = 0.5; // jaggedness of the asteroids (0 = none, 1 = lots)
 const ROID_PTS_LGE = 20; // points scored for a large asteroid
@@ -28,6 +28,9 @@ const TEXT_SIZE = 25; // text font height in pixels
 /** @type {HTMLCanvasElement} */
 var canv = document.getElementById("gameCanvas");
 var context = canv.getContext("2d");
+var laserSound = new Audio('LaserSound.wav');
+var explosionSound = new Audio('explosionSound.wav');
+new collisionSound = new Audio('collisionSound.wav');
 
 // set up the game parameters
 var level, lives, roids, score, scoreHigh, ship, text, textAlpha;
@@ -87,6 +90,20 @@ function destroyAsteroid(index) {
     }
 }
 
+function detectAsteroidCollision() {
+  for (var i = 0; i < roids.length; i++)
+  {
+    for (var j = 0; j < roids.length; j++)
+    {
+      if (i != j) {
+        if (distBetweenPoints(roids[i].x, roids[i].y, roids[j].x, roids[j].y) <= (roids[i].r + roids[j].r)) {
+            collisionSound.play();
+        }
+      }
+    }
+  }
+}
+
 function distBetweenPoints(x1, y1, x2, y2) {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
@@ -113,6 +130,7 @@ function drawShip(x, y, a, colour = "white") {
 
 function explodeShip() {
     ship.explodeTime = Math.ceil(SHIP_EXPLODE_DUR * FPS);
+    explosionSound.play();
 }
 
 function gameOver() {
@@ -248,6 +266,7 @@ function shootLaser() {
         });
     }
 
+    laserSound.play();
     // prevent further shooting
     ship.canShoot = false;
 }
