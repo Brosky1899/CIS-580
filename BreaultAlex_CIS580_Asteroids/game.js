@@ -1,10 +1,13 @@
 const FPS = 60; // frames per second
 const FRICTION = 0.7; // friction coefficient of space (0 = no friction, 1 = lots of friction)
+
 const GAME_LIVES = 3; // starting number of lives
+
 const LASER_DIST = 1; // max distance laser can travel as fraction of screen width
 const LASER_EXPLODE_DUR = 0.1; // duration of the lasers' explosion in seconds
 const LASER_MAX = 20; // maximum number of lasers on screen at once
 const LASER_SPD = 500; // speed of lasers in pixels per second
+
 const ROID_JAG = 0.5; // jaggedness of the asteroids (0 = none, 1 = lots)
 const ROID_PTS_LGE = 20; // points scored for a large asteroid
 const ROID_PTS_MED = 50; // points scored for a medium asteroid
@@ -13,15 +16,17 @@ const ROID_NUM = 5; // starting number of asteroids
 const ROID_SIZE = 100; // starting size of asteroids in pixels
 const ROID_SPD = 50; // max starting speed of asteroids in pixels per second
 const ROID_VERT = 10; // average number of vertices on each asteroid
+
 const SAVE_KEY_SCORE = "highscore"; // save key for local storage of high score
+
 const SHIP_BLINK_DUR = 0.1; // duration in seconds of a single blink during ship's invisibility
 const SHIP_EXPLODE_DUR = 0.3; // duration of the ship's explosion in seconds
 const SHIP_INV_DUR = 3; // duration of the ship's invisibility in seconds
 const SHIP_SIZE = 30; // ship height in pixels
 const SHIP_THRUST = 5; // acceleration of the ship in pixels per second per second
+
 const SHIP_TURN_SPD = 360; // turn speed in degrees per second
-const SHOW_BOUNDING = false; // show or hide collision bounding
-const SHOW_CENTRE_DOT = false; // show or hide ship's centre dot
+
 const TEXT_FADE_TIME = 2.5; // text fade time in seconds
 const TEXT_SIZE = 25; // text font height in pixels
 
@@ -299,13 +304,6 @@ function update() {
         context.closePath();
         context.stroke();
 
-        // show asteroid's collision circle
-        if (SHOW_BOUNDING) {
-            context.strokeStyle = "lime";
-            context.beginPath();
-            context.arc(x, y, r, 0, Math.PI * 2, false);
-            context.stroke();
-        }
     }
 
     // thrust the ship
@@ -383,40 +381,22 @@ function update() {
         context.fill();
     }
 
-    // show ship's collision circle
-    if (SHOW_BOUNDING) {
-        context.strokeStyle = "lime";
-        context.beginPath();
-        context.arc(ship.x, ship.y, ship.r, 0, Math.PI * 2, false);
-        context.stroke();
-    }
-
-    // show ship's centre dot
-    if (SHOW_CENTRE_DOT) {
-        context.fillStyle = "red";
-        context.fillRect(ship.x - 1, ship.y - 1, 2, 2);
-    }
-
     // draw the lasers
     for (var i = 0; i < ship.lasers.length; i++) {
         if (ship.lasers[i].explodeTime == 0) {
-            context.fillStyle = "salmon";
+            context.fillStyle = "red";
             context.beginPath();
             context.arc(ship.lasers[i].x, ship.lasers[i].y, SHIP_SIZE / 15, 0, Math.PI * 2, false);
             context.fill();
         } else {
             // draw the eplosion
-            context.fillStyle = "orangered";
+            context.fillStyle = "orange";
             context.beginPath();
             context.arc(ship.lasers[i].x, ship.lasers[i].y, ship.r * 0.75, 0, Math.PI * 2, false);
             context.fill();
-            context.fillStyle = "salmon";
+            context.fillStyle = "red";
             context.beginPath();
             context.arc(ship.lasers[i].x, ship.lasers[i].y, ship.r * 0.5, 0, Math.PI * 2, false);
-            context.fill();
-            context.fillStyle = "pink";
-            context.beginPath();
-            context.arc(ship.lasers[i].x, ship.lasers[i].y, ship.r * 0.25, 0, Math.PI * 2, false);
             context.fill();
         }
     }
@@ -431,7 +411,7 @@ function update() {
         textAlpha -= (1.0 / TEXT_FADE_TIME / FPS);
     } else if (ship.dead) {
         // after "game over" fades, start a new game
-        newGame();
+        newGame()
     }
 
     // draw the lives
