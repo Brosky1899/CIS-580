@@ -30,7 +30,8 @@ var canv = document.getElementById("gameCanvas");
 var context = canv.getContext("2d");
 var laserSound = new Audio('LaserSound.wav');
 var explosionSound = new Audio('explosionSound.wav');
-new collisionSound = new Audio('collisionSound.wav');
+var collisionSound = new Audio('collisionSound.wav');
+var diesound = new Audio('diesound.wav');
 
 // set up the game parameters
 var level, lives, roids, score, scoreHigh, ship, text, textAlpha;
@@ -83,25 +84,13 @@ function destroyAsteroid(index) {
     // destroy the asteroid
     roids.splice(index, 1);
 
+    explosionSound.play();
+
     // new level when no more asteroids
     if (roids.length == 0) {
         level++;
         newLevel();
     }
-}
-
-function detectAsteroidCollision() {
-  for (var i = 0; i < roids.length; i++)
-  {
-    for (var j = 0; j < roids.length; j++)
-    {
-      if (i != j) {
-        if (distBetweenPoints(roids[i].x, roids[i].y, roids[j].x, roids[j].y) <= (roids[i].r + roids[j].r)) {
-            collisionSound.play();
-        }
-      }
-    }
-  }
 }
 
 function distBetweenPoints(x1, y1, x2, y2) {
@@ -130,7 +119,7 @@ function drawShip(x, y, a, colour = "white") {
 
 function explodeShip() {
     ship.explodeTime = Math.ceil(SHIP_EXPLODE_DUR * FPS);
-    explosionSound.play();
+    diesound.play();
 }
 
 function gameOver() {
@@ -161,7 +150,6 @@ function keyDown(/** @type {KeyboardEvent} */ ev) {
         case 65: //letter a to teleport
             ship.x = Math.floor((Math.random() * canv.width));
             ship.y = Math.floor((Math.random() * canv.height));
-            console.log("here");
             break;
     }
 }
@@ -266,6 +254,7 @@ function shootLaser() {
         });
     }
 
+    //play LaserSound
     laserSound.play();
     // prevent further shooting
     ship.canShoot = false;
