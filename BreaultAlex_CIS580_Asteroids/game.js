@@ -1,5 +1,5 @@
 const FPS = 60; // frames per second
-const FRICTION = 0.7; // friction coefficient of space (0 = no friction, 1 = lots of friction)
+const FRICTION = 0.5; // friction coefficient of space (0 = no friction, 1 = lots of friction)
 
 const GAME_LIVES = 3; // starting number of lives
 
@@ -23,7 +23,7 @@ const SHIP_BLINK_DUR = 0.1; // duration in seconds of a single blink during ship
 const SHIP_EXPLODE_DUR = 0.3; // duration of the ship's explosion in seconds
 const SHIP_INV_DUR = 3; // duration of the ship's invisibility in seconds
 const SHIP_SIZE = 30; // ship height in pixels
-const SHIP_THRUST = 5; // acceleration of the ship in pixels per second per second
+const SHIP_THRUST = 5; // acceleration of the ship in pixels per second squared
 
 const SHIP_TURN_SPD = 360; // turn speed in degrees per second
 
