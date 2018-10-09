@@ -102,8 +102,8 @@ function distBetweenPoints(x1, y1, x2, y2) {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
 
-function drawShip(x, y, a, colour = "white") {
-    context.strokeStyle = colour;
+function drawShip(x, y, a, color = "white") {
+    context.strokeStyle = color;
     context.lineWidth = SHIP_SIZE / 20;
     context.beginPath();
     context.moveTo( // nose of the ship
