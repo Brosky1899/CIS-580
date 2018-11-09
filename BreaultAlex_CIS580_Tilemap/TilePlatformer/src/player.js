@@ -31,7 +31,6 @@ export default class Player {
       }
       this.sprites.push(sprite);
     }
-    console.log(this.sprites);
   }
 
   // Helper function to check for non-existent or solid tiles
@@ -82,21 +81,21 @@ export default class Player {
       case 'north':
           context.drawImage(
             this.spritesheet,     // The image to draw
-            this.sprites[4].sx, this.sprites[4].sy, 32, 32, // The portion of image to draw
+            this.sprites[1].sx, this.sprites[4].sy, 32, 32, // The portion of image to draw
             this.x, this.y, 32, 32 // Where to draw the image on-screen
           );
           break;
       case 'east':
           context.drawImage(
             this.spritesheet,     // The image to draw
-            this.sprites[3].sx, this.sprites[3].sy, 32, 32, // The portion of image to draw
+            this.sprites[1].sx, this.sprites[3].sy, 32, 32, // The portion of image to draw
             this.x, this.y, 32, 32 // Where to draw the image on-screen
           );
           break;
       case 'west':
           context.drawImage(
             this.spritesheet,     // The image to draw
-            this.sprites[6].sx, this.sprites[6].sy, 32, 32, // The portion of image to draw
+            this.sprites[1].sx, this.sprites[6].sy, 32, 32, // The portion of image to draw
             this.x, this.y, 32, 32 // Where to draw the image on-screen
           );
           break;

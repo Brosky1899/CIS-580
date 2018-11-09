@@ -13,8 +13,6 @@ export default class Game {
     * @param {integer} heght - the height of the game screen in pixels
     */
   constructor(width, height) {
-    console.log(tilemap);
-    console.log(tilemapData);
     this._start = null;
     this.WIDTH = width;
     this.HEIGHT = height;

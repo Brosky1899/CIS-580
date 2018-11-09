@@ -33,14 +33,17 @@ module.exports = (function (){
         }
         tileset.src = tilesetmapData.image;
         tilesets.push(tileset);
-        console.log(tilesetmapData);
 
         // Create the tileset's tiles
         var colCount = Math.floor(tilesetmapData.imagewidth / tileWidth),
             rowCount = Math.floor(tilesetmapData.imageheight / tileHeight),
             tileCount = colCount * rowCount;
 
+        console.log(tilesetmapData);
+
         for(i = 0; i < tileCount; i++) {
+          //if (tilesetmapData.)
+
           var tile = {
             // Reference to the image, shared amongst all tiles in the tileset
             image: tileset,
@@ -52,11 +55,12 @@ module.exports = (function (){
             // Indicates a solid tile (i.e. solid property is true).  As properties
             // can be left blank, we need to make sure the property exists.
             // We'll assume any tiles missing the solid property are *not* solid
-            solid: (tilesetmapData.tileproperties[i] && tilesetmapData.tileproperties[i].solid == "true") ? true : false
+            solid: (tilesetmapData.tiles[i] && tilesetmapData.tiles[i].solid) ? true : false
           }
+
           tiles.push(tile);
-          //console.log(tiles);
         }
+        tiles[4].solid = true;
       });
 
       // Parse the layers in the map
@@ -96,19 +100,20 @@ module.exports = (function (){
           for(y = 0; y < layer.height; y++) {
             for(x = 0; x < layer.width; x++) {
               var tileId = layer.data[x + layer.width * y];
-
+              //console.log(tiles);
+              if (tiles.length > 0) {
               // tiles with an id of 0 don't exist
-              if(tileId != 0) {
-                var tile = tiles[tileId - 1];
-                if(tile.image && screenCtx !== undefined) { // Make sure the image has loaded
-                    screenCtx.drawImage(
-                    tile.image,     // The image to draw
-                    tile.sx, tile.sy, tileWidth, tileHeight, // The portion of image to draw
-                    x*tileWidth, y*tileHeight, tileWidth, tileHeight // Where to draw the image on-screen
-                  );
+                if(tileId != 0) {
+                  var tile = tiles[tileId - 1];
+                  if(tile.image && screenCtx !== undefined) { // Make sure the image has loaded
+                      screenCtx.drawImage(
+                      tile.image,     // The image to draw
+                      tile.sx, tile.sy, tileWidth, tileHeight, // The portion of image to draw
+                      x*tileWidth, y*tileHeight, tileWidth, tileHeight // Where to draw the image on-screen
+                    );
+                  }
                 }
               }
-
             }
           }
         }
