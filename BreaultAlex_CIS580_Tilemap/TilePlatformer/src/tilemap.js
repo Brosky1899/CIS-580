@@ -42,7 +42,6 @@ module.exports = (function (){
         console.log(tilesetmapData);
 
         for(i = 0; i < tileCount; i++) {
-          //if (tilesetmapData.)
 
           var tile = {
             // Reference to the image, shared amongst all tiles in the tileset
@@ -60,7 +59,7 @@ module.exports = (function (){
 
           tiles.push(tile);
         }
-        tiles[4].solid = true;
+        console.log(tiles);
       });
 
       // Parse the layers in the map
